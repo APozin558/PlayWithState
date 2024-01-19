@@ -21,4 +21,12 @@ data class Case2GameResources(
     fun getPrimaryHerbs():Int{
         return resPrimaryHerbs.toInt()
     }
+
+    fun updatePrimaryResources(newWater:Float, newRawFood:Float, newScrap:Float, newHerbs:Float):Case2GameResources{
+        resPrimaryWater = newWater
+        resPrimaryRawFood = newRawFood
+        resPrimaryScrap = newScrap
+        resPrimaryHerbs = newHerbs
+        return this
+    }
 }

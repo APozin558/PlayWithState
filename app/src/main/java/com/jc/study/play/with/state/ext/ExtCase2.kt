@@ -38,6 +38,11 @@ object ExtCase2 {
     const val CASE_2_TASK_GUARD = 11
     const val CASE_2_TASK_TRADE = 12
 
+    const val CASE_2_HERO_DEFAULT_WATER = 2.0f
+    const val CASE_2_HERO_DEFAULT_RAW_FOOD = 1.0f
+    const val CASE_2_HERO_DEFAULT_SCRAP = 1.0f
+    const val CASE_2_HERO_DEFAULT_HERBS = 1.0f
+
     const val CASE_2_TASK_PREFIX_NAME_TASK = "TASK"
     const val CASE_2_TASK_PREFIX_NAME_FIND = "FIND"
     const val CASE_2_TASK_PREFIX_NAME_HARVEST = "HARVEST"

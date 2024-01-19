@@ -6,11 +6,18 @@ import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_GAME_INIT_DAY
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_GAME_INIT_ROUND
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_GAME_STATE_PAUSE
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_GAME_STATE_PLAY
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_HERO_DEFAULT_HERBS
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_HERO_DEFAULT_RAW_FOOD
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_HERO_DEFAULT_SCRAP
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_HERO_DEFAULT_WATER
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_SCREEN_FIRST
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_SCREEN_SECOND
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_TASK_FOOD
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_TASK_HERBS
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_TASK_SCRAP
+import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_TASK_WATER
 import com.jc.study.play.with.state.ext.ExtLogic2.case2getNextDaytime
 import com.jc.study.play.with.state.ext.ExtLogic2.case2isDayTimeChanged
-import com.jc.study.play.with.state.models.case2.Case2NewGameGenerator.getInitialGameResources
 import com.jc.study.play.with.state.models.case2.Case2NewGameGenerator.getInitialListOfCharters
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,12 +32,10 @@ class AppDataCase2 {
     val gameDaytime = MutableStateFlow(CASE_2_GAME_DAYTIME_MORNING)
 
     val charactersList = MutableStateFlow(
-        getInitialListOfCharters(num = 16)
+        getInitialListOfCharters(num = 7)
     )
 
-    val gameResources = MutableStateFlow(
-        getInitialGameResources()
-    )
+
 
     fun nextScreen(){
         val nextScreen =  if(currentScreen.asStateFlow().value == CASE_2_SCREEN_FIRST) {
@@ -49,6 +54,38 @@ class AppDataCase2 {
     }
 
     fun nextRound() {
+        updateRoundDateTime()
+    }
+
+    fun updateRoundPrimaryResourcesChanges():Case2ResourceNewRound {
+        val newRes = Case2ResourceNewRound()
+        val currentList = charactersList.value
+
+        currentList.forEach { character ->
+            when(character.currentOrderId){
+                CASE_2_TASK_WATER -> {
+                    newRes.addCharWater()
+                    newRes.addWater(CASE_2_HERO_DEFAULT_WATER)
+                }
+                CASE_2_TASK_FOOD -> {
+                    newRes.addCharRawFood()
+                    newRes.addRawFood(CASE_2_HERO_DEFAULT_RAW_FOOD)
+                }
+                CASE_2_TASK_SCRAP -> {
+                    newRes.addCharScrap()
+                    newRes.addScrap(CASE_2_HERO_DEFAULT_SCRAP)
+                }
+                CASE_2_TASK_HERBS -> {
+                    newRes.addCharHerbs()
+                    newRes.addHerbs(CASE_2_HERO_DEFAULT_HERBS)
+                }
+            }
+        }
+
+        return newRes
+    }
+
+    private fun updateRoundDateTime(){
         val nextRound = gameRound.asStateFlow().value + 1
         val currentDaytime = gameDaytime.asStateFlow().value
 

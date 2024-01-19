@@ -9,7 +9,7 @@ object ExtCase2GameDefaults {
     const val CASE_2_GAME_DEFAULT_RES_HERBS = 0.0f
 
 
-    val CASE_2_CHAR_FIRST_NAME = listOf("Freya", "Magnus", "Astrid", "Erik", "Ingrid", "Soren", "Solveig",
+    val GAME_CHAR_FIRST_NAME = listOf("Freya", "Magnus", "Astrid", "Erik", "Ingrid", "Soren", "Solveig",
         "Leif", "Matilda", "Henrik", "Lars", "Sofia", "Oskar", "Signe", "Otto", "Elin", "Knut",
         "Ebba", "Emil", "Linnea", "Nils", "Ida", "Vilhelm", "Ebbe", "Saga", "Axel", "Alma", "Hugo",
         "Agnes", "Isak", "Klara", "Gustav", "Lovisa", "Felix", "Ellen", "Arvid", "Maja", "Ludvig",
@@ -23,7 +23,7 @@ object ExtCase2GameDefaults {
         "Alina", "Igor", "Vera", "Andrei", "Oksana", "Alexei", "Darya", "Mikhail", "Elena",
         "Viktor", "Yulia")
 
-    val CASE_2_CHAR_LAST_NAME = listOf("Smith", "Johnson", "Williams", "Brown", "Jones", "Miller",
+    val GAME_CHAR_LAST_NAME = listOf("Smith", "Johnson", "Williams", "Brown", "Jones", "Miller",
         "Davis", "Garcia", "Rodriguez", "Wilson", "Martinez", "Anderson", "Taylor", "Thomas",
         "Hernandez", "Moore", "Martin", "Jackson", "Thompson", "White", "Lopez", "Lee", "Gonzalez",
         "Harris", "Clark", "Lewis", "Robinson", "Walker", "Hall", "Young", "Allen", "King", "Wright",

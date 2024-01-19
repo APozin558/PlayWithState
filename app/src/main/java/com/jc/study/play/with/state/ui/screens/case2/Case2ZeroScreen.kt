@@ -1,20 +1,19 @@
 package com.jc.study.play.with.state.ui.screens.case2
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_GAME_STATE_PAUSE
-import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_LOG_D
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_SCREEN_FIRST
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_SCREEN_SECOND
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_SCREEN_ZERO
 import com.jc.study.play.with.state.models.case2.AppDataCase2
+import com.jc.study.play.with.state.ui.models.Case2ViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun Case2ZeroScreen(){
+fun Case2ZeroScreen(viewModel: Case2ViewModel = Case2ViewModel()){
     val appData = remember { AppDataCase2()}
 
     val gameSpeedState = appData.gameState.collectAsState().value
@@ -22,7 +21,13 @@ fun Case2ZeroScreen(){
     val gameDaytime = appData.gameDaytime.collectAsState().value
     val gameRound = appData.gameRound.collectAsState().value
     val gameCharactersList = appData.charactersList.collectAsState().value
-    val gameResources = appData.gameResources.collectAsState().value
+
+    val gameResources = viewModel.gameResource.collectAsState()
+
+/*    val resWater = appData.gameResources.collectAsState().value.value.resPrimaryWater.toInt()
+    val resRawFood = appData.gameResources.collectAsState().value.value.resPrimaryRawFood.toInt()
+    val resScrap = appData.gameResources.collectAsState().value.value.resPrimaryScrap.toInt()
+    val resHerbs = appData.gameResources.collectAsState().value.value.resPrimaryHerbs.toInt()*/
 
     when(appData.currentScreen.collectAsState().value){
         CASE_2_SCREEN_ZERO -> appData.nextScreen()
@@ -53,8 +58,8 @@ fun Case2ZeroScreen(){
         LaunchedEffect(key1 = gameSpeedState){
             while (true){
                 delay(1_000)
-                Log.d(CASE_2_LOG_D, "Click! ${appData.gameRound.value}")
                 appData.nextRound()
+                viewModel.nextRound()
             }
         }
     }

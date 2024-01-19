@@ -1,7 +1,5 @@
 package com.jc.study.play.with.state.models.case2
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.jc.study.play.with.state.ext.ExtCase2.CASE_2_TASK_NOTHING
 import com.jc.study.play.with.state.ext.ExtCase2GameDefaults.CASE_2_GAME_DEFAULT_RES_HERBS
 import com.jc.study.play.with.state.ext.ExtCase2GameDefaults.CASE_2_GAME_DEFAULT_RES_RAW_FOOD
@@ -23,15 +21,13 @@ object Case2NewGameGenerator {
     }
 
 
-    fun getInitialGameResources(): MutableState<Case2GameResources> {
-        return mutableStateOf(
-            Case2GameResources(
+    fun getInitialGameResources(): Case2GameResources {
+        return Case2GameResources(
                 resPrimaryWater = CASE_2_GAME_DEFAULT_RES_WATER,
                 resPrimaryRawFood = CASE_2_GAME_DEFAULT_RES_RAW_FOOD,
                 resPrimaryScrap = CASE_2_GAME_DEFAULT_RES_SCRAP,
                 resPrimaryHerbs = CASE_2_GAME_DEFAULT_RES_HERBS
             )
-        )
     }
 
 }

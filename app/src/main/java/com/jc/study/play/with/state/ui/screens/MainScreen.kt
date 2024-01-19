@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jc.study.play.with.state.R
 import com.jc.study.play.with.state.ui.models.MainScreenModel
-import com.jc.study.play.with.state.ui.theme.cBoxItemColor
 import com.jc.study.play.with.state.ui.theme.cPrimaryColor
 import com.jc.study.play.with.state.ui.theme.cSecondaryColor
 import com.jc.study.play.with.state.ui.theme.cTextColor
+import com.jc.study.play.with.state.ui.theme.cWhiteColor
 
 @Composable
 fun MainScreen(scrModel: MainScreenModel) {
@@ -126,7 +126,7 @@ fun UxLineItem(descriptionTxt: String, counter: Int, onButtonClick: () -> Unit, 
         modifier = Modifier
             .height(50.dp)
             .fillMaxWidth()
-            .background(color = cBoxItemColor)
+            .background(color = cWhiteColor)
     ) {
         Box(
             contentAlignment = Alignment.CenterStart,

@@ -42,7 +42,7 @@ import com.jc.study.play.with.state.ext.ExtLogic2.case2getTaskIconById
 import com.jc.study.play.with.state.ext.ExtLogic2.case2getTaskNameById
 import com.jc.study.play.with.state.ext.ExtLogic2.case2getTaskPrefixNameById
 import com.jc.study.play.with.state.models.case2.Case2CharacterData
-import com.jc.study.play.with.state.ui.theme.cBoxItemColor
+import com.jc.study.play.with.state.ui.theme.cWhiteColor
 import com.jc.study.play.with.state.ui.theme.cPrimaryColor
 import com.jc.study.play.with.state.ui.theme.cSecondaryColor
 import com.jc.study.play.with.state.ui.theme.cSelectedItemBackground
@@ -82,7 +82,7 @@ fun Case2uxPeopleListItem(
     orderIsPressed: () -> Unit
 ){
     var isExpanded by remember { mutableStateOf(false) }
-    val listItemBackgroundColor = if (isItemSelected) cSelectedItemBackground else cBoxItemColor
+    val listItemBackgroundColor = if (isItemSelected) cSelectedItemBackground else cWhiteColor
 
     Row(
         modifier = Modifier

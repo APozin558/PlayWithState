@@ -12,7 +12,11 @@ val Pink40 = Color(0xFF7D5260)
 
 val cPrimaryColor = Color(0xFF2c5f2d)
 val cSecondaryColor = Color(0xFFF4FBF4)
-val cBoxItemColor = Color(0xFFFFFFFF)
+val cWhiteColor = Color(0xFFFFFFFF)
+val cSelectedItemBackground = Color(0xFF80DEEA)
+
 val cAccentColor = Color(0xFF213015)
 val cTextColor = Color(0xFF060904)
-val cSelectedItemBackground = Color(0xFF80DEEA)
+val cTextAltColor = Color(0xFF151F0E)
+
+val cDefaultBackgroundColor = Color(0xFFF4FBF4)

@@ -92,7 +92,9 @@ object ExtLogic2 {
     }
 
     fun case2getRoundIconById(gameRound:Int, i:Int):Int{
-        return if (i <= gameRound) R.drawable.ux_circle_filled_10_icon else R.drawable.ux_circle_10_icon
+        if (i == gameRound) return R.drawable.ux_circle_b_10
+        return if (i < gameRound) R.drawable.ux_circle_filled_10_icon
+        else R.drawable.ux_circle_10_icon
     }
 
 

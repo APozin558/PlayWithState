@@ -1,20 +1,27 @@
 package com.jc.study.play.with.state.ui.models.case3
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.jc.study.play.with.state.constants.CommonConstants
 import com.jc.study.play.with.state.logic.case3.Case3InitNewGame.generateNewHeroes
 import com.jc.study.play.with.state.logic.case3.Case3NextRound
+import com.jc.study.play.with.state.models.case3.Case3GameCommonData
 import com.jc.study.play.with.state.models.case3.Case3GameResourcesData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class Case3DefaultScreenModel: ViewModel() {
+    private val _gmCommonDate = MutableStateFlow(Case3GameCommonData())
+    val gmCommonData = _gmCommonDate.asStateFlow()
+
+    private val _currentScreen = MutableStateFlow(CommonConstants.SCREEN_OVERVIEW)
+    val currentScreen = _currentScreen.asStateFlow()
+
+    private val _isGameStarted = MutableStateFlow(CommonConstants.IS_GAME_STARTED_DEFAULT)
+    val isGameStarted: StateFlow<Boolean> = _isGameStarted
+
     private val _gmResData = MutableStateFlow(Case3GameResourcesData())
     val gmResData: StateFlow<Case3GameResourcesData> = _gmResData.asStateFlow()
-
-    private val _isGameStarted = MutableStateFlow(true)
-    val isGameStarted: StateFlow<Boolean> = _isGameStarted
 
     private val _gmHeroesList = MutableStateFlow(generateNewHeroes())
     val gmHeroesList = _gmHeroesList.asStateFlow()
@@ -23,13 +30,34 @@ class Case3DefaultScreenModel: ViewModel() {
     val gmResNextRoundInfo = _gmResNextRoundInfo.asStateFlow()
 
     fun updateResOnNextRound(){
-        val gmResWaterNew = gmResData.value.resWater + gmResNextRoundInfo.value.resWater
-        val gmResRawFoodNew = gmResData.value.resRawFood + gmResNextRoundInfo.value.resRawFood
-        val gmResScrapNew = gmResData.value.resScrap + gmResNextRoundInfo.value.resScrap
+        val newCommonData = Case3NextRound.runNextRound(currentData = gmCommonData.value)
+        _gmCommonDate.value = _gmCommonDate.value
+            .copy(roundNumber = newCommonData.roundNumber, dayN = newCommonData.dayN, dayPeriod = newCommonData.dayPeriod)
+
+        _gmResNextRoundInfo.value = Case3NextRound.getNextRoundInfo(gmHeroesList)
+        val gmResWaterResult = gmResData.value.resWater + gmResNextRoundInfo.value.resWater
+        val gmResRawFoodResult = gmResData.value.resRawFood + gmResNextRoundInfo.value.resRawFood
+        val gmResScrapResult = gmResData.value.resScrap + gmResNextRoundInfo.value.resScrap
 
         _gmResData.value = _gmResData.value
-            .copy(resWater = gmResWaterNew, resRawFood = gmResRawFoodNew, resScrap = gmResScrapNew)
+            .copy(resWater = gmResWaterResult, resRawFood = gmResRawFoodResult, resScrap = gmResScrapResult)
+    }
 
-        Log.d("CASE_3", "updateResOnNextRound: $gmResWaterNew $gmResRawFoodNew $gmResScrapNew")
+    fun onPauseClicked() {
+        val isStartedNew = !isGameStarted.value
+        _isGameStarted.value = isStartedNew
+    }
+
+    fun navigation(nextScreen: Int){
+        _currentScreen.value = nextScreen
+    }
+
+    fun updatePeopleTasks(newOrder: Int, selectedPeopleList: List<Int>) {
+        val currentHeroList = _gmHeroesList.value
+        currentHeroList.forEach { hero -> if (selectedPeopleList.contains(hero.id)) {
+            hero.orderedTask = newOrder
+            hero.currentTask = newOrder
+        }}
+        _gmResNextRoundInfo.value = Case3NextRound.getNextRoundInfo(gmHeroesList)
     }
 }

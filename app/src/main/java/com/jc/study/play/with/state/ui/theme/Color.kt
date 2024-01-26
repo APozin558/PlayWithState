@@ -15,8 +15,11 @@ val cSecondaryColor = Color(0xFFF4FBF4)
 val cWhiteColor = Color(0xFFFFFFFF)
 val cSelectedItemBackground = Color(0xFF80DEEA)
 
+val cHeaderColor = Color(0xFF1E421F)
 val cAccentColor = Color(0xFF213015)
 val cTextColor = Color(0xFF060904)
-val cTextAltColor = Color(0xFF151F0E)
+val cTextAltColor = Color(0xFF1E2B14)
+val cTextWColor = Color(0xFFFFFFFF)
 
 val cDefaultBackgroundColor = Color(0xFFF4FBF4)
+val cPeopleItemBackgroundColor = Color(0xFFFFFFFF)

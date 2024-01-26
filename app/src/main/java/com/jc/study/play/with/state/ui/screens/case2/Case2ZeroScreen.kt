@@ -24,11 +24,6 @@ fun Case2ZeroScreen(viewModel: Case2ViewModel = Case2ViewModel()){
 
     val gameResources = viewModel.gameResource.collectAsState()
 
-/*    val resWater = appData.gameResources.collectAsState().value.value.resPrimaryWater.toInt()
-    val resRawFood = appData.gameResources.collectAsState().value.value.resPrimaryRawFood.toInt()
-    val resScrap = appData.gameResources.collectAsState().value.value.resPrimaryScrap.toInt()
-    val resHerbs = appData.gameResources.collectAsState().value.value.resPrimaryHerbs.toInt()*/
-
     when(appData.currentScreen.collectAsState().value){
         CASE_2_SCREEN_ZERO -> appData.nextScreen()
         CASE_2_SCREEN_FIRST -> Case2FirstScreen(

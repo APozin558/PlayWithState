@@ -50,7 +50,6 @@ fun Case2SecondScreen(
                 listOfSelectedItems.clear()
             })
         }
-        //Case2uxBottomTab(nextScreenPressed = nextScreenPressed)
     }
 
 }

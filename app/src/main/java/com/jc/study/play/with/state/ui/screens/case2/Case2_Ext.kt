@@ -120,7 +120,7 @@ fun Case2uxTopNavigationTab(nextScreenPressed: () -> Unit,
         Box(
             contentAlignment = Center,
             modifier = Modifier
-                .padding(start = 4.dp)
+                .padding(start = 5.dp, end = 5.dp)
                 .size(50.dp)
                 .clickable(onClick = {navigateToPressed(CASE_2_SCREEN_FIRST)})
         ){
@@ -136,7 +136,7 @@ fun Case2uxTopNavigationTab(nextScreenPressed: () -> Unit,
         Box(
             contentAlignment = Center,
             modifier = Modifier
-                .padding(start = 4.dp)
+                .padding(start = 5.dp)
                 .size(50.dp)
                 .clickable(onClick = {navigateToPressed(CASE_2_SCREEN_SECOND)})
         ){

@@ -1,6 +1,5 @@
 package com.jc.study.play.with.state.ui.screens.case3
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -35,6 +35,7 @@ import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getNewTaskImage
 import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getTaskIconById
 import com.jc.study.play.with.state.models.case3.Case3GameCommonData
 import com.jc.study.play.with.state.models.case3.Case3GameHeroesData
+import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxFab
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxHeaderSection
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxNavigationSection
 import com.jc.study.play.with.state.ui.theme.cPeopleItemBackgroundColor
@@ -56,37 +57,47 @@ fun Case3PeopleScreen(
         mutableStateListOf<Int>()
     }
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Case3uxHeaderSection(
-            currentScreen = currentScreen,
-            onPauseClicked = onPauseClicked,
-            isGameStarted = isGameStarted.value,
-            commonData = commonData
-        )
-        Case3uxNavigationSection(
-            currentScreen = currentScreen,
-            onNavigationClicked = onNavigationClicked
-        )
-        Case3uxPeopleSection(
-            modifier = Modifier.weight(1.0f),
-            gamePeople = gamePeople,
-            listOfSelectedPeople = listOfSelectedPeople
-        )
-
-        if (!listOfSelectedPeople.isEmpty()){
-            Case3uxPeopleSelectNewOrderSection(onTaskClicked = {newTask ->
-                val peopleList = listOfSelectedPeople.toList()
-                Log.d("TAG", "Case3PeopleScreen: $newTask $peopleList")
-                updateTaskClicked(newTask, peopleList)
-                listOfSelectedPeople.clear()
-            })
+    Box(modifier = Modifier.fillMaxSize()){
+        Column(
+            modifier = Modifier
+                .fillMaxSize().align(Alignment.TopStart)
+        ) {
+            Case3uxHeaderSection(
+                currentScreen = currentScreen,
+                onPauseClicked = onPauseClicked,
+                isGameStarted = isGameStarted.value,
+                commonData = commonData
+            )
+            Case3uxPeopleSection(
+                modifier = Modifier.weight(1.0f),
+                gamePeople = gamePeople,
+                listOfSelectedPeople = listOfSelectedPeople
+            )
+            if (listOfSelectedPeople.isNotEmpty()){
+                Case3uxPeopleSelectNewOrderSection(onTaskClicked = {newTask ->
+                    val peopleList = listOfSelectedPeople.toList()
+                    updateTaskClicked(newTask, peopleList)
+                    listOfSelectedPeople.clear()
+                })
+            } else {
+                Case3uxNavigationSection(
+                    currentScreen = currentScreen,
+                    onNavigationClicked = onNavigationClicked
+                )
+            }
         }
 
+        Surface(
+            modifier = Modifier.align(Alignment.BottomStart).padding(5.dp).padding(bottom = 50.dp)
+        ) {
+            Case3uxFab(
+                isStarted = isGameStarted.value,
+                onClick = onPauseClicked
+            )
+        }
     }
+
+
 }
 
 @Composable

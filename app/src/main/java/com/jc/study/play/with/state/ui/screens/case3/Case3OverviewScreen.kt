@@ -2,21 +2,26 @@ package com.jc.study.play.with.state.ui.screens.case3
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.BottomStart
+import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +34,7 @@ import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getResourceIcon
 import com.jc.study.play.with.state.models.case3.Case3GameCommonData
 import com.jc.study.play.with.state.models.case3.Case3GameResourcesData
 import com.jc.study.play.with.state.models.case3.Case3ResNextRoundChanges
+import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxFab
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxHeaderSection
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxNavigationSection
 import com.jc.study.play.with.state.ui.theme.cTextAltColor
@@ -46,27 +52,43 @@ fun Case3OverviewScreen(
     isGameStarted: State<Boolean>,
     onNavigationClicked: (Int) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Case3uxHeaderSection(
-            currentScreen = currentScreen,
-            onPauseClicked = onPauseClicked,
-            isGameStarted = isGameStarted.value,
-            commonData = commonData
-        )
-        Case3uxNavigationSection(currentScreen = currentScreen, onNavigationClicked = onNavigationClicked)
-        Case3uxResourceSection(gameData = gameData, resNextRoundInfo = resNextRoundInfo)
+    Box(modifier = Modifier.fillMaxSize()){
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(TopStart)
+        ) {
+            Case3uxHeaderSection(
+                currentScreen = currentScreen,
+                onPauseClicked = onPauseClicked,
+                isGameStarted = isGameStarted.value,
+                commonData = commonData
+            )
+            Case3uxResourceSection(gameData = gameData, resNextRoundInfo = resNextRoundInfo, modifier = Modifier.weight(1.0f))
+            Case3uxNavigationSection(currentScreen = currentScreen, onNavigationClicked = onNavigationClicked)
+        }
 
+        Surface(
+            modifier = Modifier
+                .align(BottomStart)
+                .padding(5.dp)
+                .padding(bottom = 50.dp)
+        ) {
+            Case3uxFab(
+                isStarted = isGameStarted.value,
+                onClick = onPauseClicked
+            )
+        }
     }
 }
 
 @Composable
 fun Case3uxResourceSection(
     gameData: StateFlow<Case3GameResourcesData>,
-    resNextRoundInfo: StateFlow<Case3ResNextRoundChanges>
+    resNextRoundInfo: StateFlow<Case3ResNextRoundChanges>,
+    modifier: Modifier
 ) {
+
     val heroTotal = resNextRoundInfo.collectAsState().value.heroTotal
     
     val resWater = gameData.collectAsState().value.resWater
@@ -84,33 +106,35 @@ fun Case3uxResourceSection(
     val resHeroScrap = resNextRoundInfo.collectAsState().value.heroScrap
     val resHeroSpendScrap = resNextRoundInfo.collectAsState().value.spendScrap
 
-    Case3uxResourcesItem(
-        resId = CommonConstants.GAME_RES_WATER,
-        res = resWater,
-        resTitle = "WATER",
-        resNext = resNextWater,
-        resHero = resHeroWater,
-        spendRes = resHeroSpendWater,
-        affectedHeroes = heroTotal
-    )
-    Case3uxResourcesItem(
-        resId = CommonConstants.GAME_RES_RAW_FOOD,
-        res = resRawFood,
-        resTitle = "RAW FOOD",
-        resNext = resNextRawFood,
-        resHero = resHeroRawFood,
-        spendRes = resHeroSpendRawFood,
-        affectedHeroes = heroTotal
-    )
-    Case3uxResourcesItem(
-        resId = CommonConstants.GAME_RES_SCRAP,
-        res = resScrap,
-        resTitle = "SCRAP",
-        resNext = resNextScrap,
-        resHero = resHeroScrap,
-        spendRes = resHeroSpendScrap,
-        affectedHeroes = heroTotal
-    )
+    Column(modifier = modifier) {
+        Case3uxResourcesItem(
+            resId = CommonConstants.GAME_RES_WATER,
+            res = resWater,
+            resTitle = "WATER",
+            resNext = resNextWater,
+            resHero = resHeroWater,
+            spendRes = resHeroSpendWater,
+            affectedHeroes = heroTotal
+        )
+        Case3uxResourcesItem(
+            resId = CommonConstants.GAME_RES_RAW_FOOD,
+            res = resRawFood,
+            resTitle = "RAW FOOD",
+            resNext = resNextRawFood,
+            resHero = resHeroRawFood,
+            spendRes = resHeroSpendRawFood,
+            affectedHeroes = heroTotal
+        )
+        Case3uxResourcesItem(
+            resId = CommonConstants.GAME_RES_SCRAP,
+            res = resScrap,
+            resTitle = "SCRAP",
+            resNext = resNextScrap,
+            resHero = resHeroScrap,
+            spendRes = resHeroSpendScrap,
+            affectedHeroes = heroTotal
+        )
+    }
 }
 
 @Composable
@@ -141,7 +165,9 @@ fun Case3uxResourcesItem(
                     Text(text = "+$resNext", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = cTextColor)
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(text = "($resHero", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = cTextColor)
-                    Image(painter = painterResource(id = R.drawable.ux_small_hero_b_16), contentDescription = "hero", modifier = Modifier.align(Bottom).size(20.dp))
+                    Image(painter = painterResource(id = R.drawable.ux_small_hero_b_16), contentDescription = "hero", modifier = Modifier
+                        .align(Bottom)
+                        .size(20.dp))
                     Text(text = ")", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = cTextColor)
 
                 }
@@ -152,7 +178,9 @@ fun Case3uxResourcesItem(
                     if (affectedHeroes > 0) {
                         Spacer(modifier = Modifier.width(5.dp))
                         Text(text = "($affectedHeroes", fontSize = 12.sp, fontWeight = FontWeight.Normal, color = cTextAltColor )
-                        Image(painter = painterResource(id = R.drawable.ux_small_hero_b_16), contentDescription = "hero", modifier = Modifier.align(Bottom).size(14.dp))
+                        Image(painter = painterResource(id = R.drawable.ux_small_hero_b_16), contentDescription = "hero", modifier = Modifier
+                            .align(Bottom)
+                            .size(14.dp))
                         Text(text = ")", fontSize = 12.sp, fontWeight = FontWeight.Normal, color = cTextAltColor )
 
                     }

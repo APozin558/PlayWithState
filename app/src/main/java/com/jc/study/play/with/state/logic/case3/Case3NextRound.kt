@@ -35,13 +35,16 @@ object Case3NextRound {
                         result.resScout += HeroConstants.DEFAULT_DO_SCOUT
                     }
                 }
-
-                result.spendWater += HeroConstants.DEFAULT_NEED_WATER
-                result.spendFood += HeroConstants.DEFAULT_NEED_FOOD
+                result.heroSpendWater += hero.needWater
+                result.heroSpendFood += hero.needFood
             }
         }
+
+        result.spendWater += result.heroSpendWater
+        result.spendFood += result.heroSpendFood
         return result
     }
+
 
     fun runNextRound(currentData: Case3GameCommonData): Case3GameCommonData {
         val result:Case3GameCommonData = Case3GameCommonData()

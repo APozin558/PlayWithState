@@ -35,9 +35,9 @@ class Case3DefaultScreenModel: ViewModel() {
             .copy(roundNumber = newCommonData.roundNumber, dayN = newCommonData.dayN, dayPeriod = newCommonData.dayPeriod)
 
         _gmResNextRoundInfo.value = Case3NextRound.getNextRoundInfo(gmHeroesList)
-        val gmResWaterResult = gmResData.value.resWater + gmResNextRoundInfo.value.resWater
-        val gmResRawFoodResult = gmResData.value.resRawFood + gmResNextRoundInfo.value.resRawFood
-        val gmResScrapResult = gmResData.value.resScrap + gmResNextRoundInfo.value.resScrap
+        val gmResWaterResult = gmResData.value.resWater + gmResNextRoundInfo.value.getWater(newCommonData.dayPeriod, newCommonData.roundNumber)
+        val gmResRawFoodResult = gmResData.value.resRawFood + gmResNextRoundInfo.value.getFood(newCommonData.dayPeriod, newCommonData.roundNumber)
+        val gmResScrapResult = gmResData.value.resScrap + gmResNextRoundInfo.value.getScrap(newCommonData.dayPeriod, newCommonData.roundNumber)
 
         _gmResData.value = _gmResData.value
             .copy(resWater = gmResWaterResult, resRawFood = gmResRawFoodResult, resScrap = gmResScrapResult)

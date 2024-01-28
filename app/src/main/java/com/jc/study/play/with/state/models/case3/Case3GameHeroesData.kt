@@ -7,7 +7,9 @@ data class Case3GameHeroesData(
     var id: Int = -1,
     var name: String = "??? ???",
     var currentTask: Int = HeroConstants.TASK_NOTHING,
-    var orderedTask: Int = HeroConstants.TASK_NOTHING
+    var orderedTask: Int = HeroConstants.TASK_NOTHING,
+    val needWater: Float = HeroConstants.DEFAULT_NEED_WATER,
+    val needFood: Float = HeroConstants.DEFAULT_NEED_FOOD
 ){
     companion object{
         private var nextId = 0

@@ -1,44 +1,34 @@
 package com.jc.study.play.with.state.ui.screens.case3
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Alignment.Companion.BottomStart
 import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.jc.study.play.with.state.R
 import com.jc.study.play.with.state.constants.CommonConstants
-import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getResourceIconById
 import com.jc.study.play.with.state.models.case3.Case3GameCommonData
 import com.jc.study.play.with.state.models.case3.Case3GameResourcesData
 import com.jc.study.play.with.state.models.case3.Case3ResNextRoundChanges
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxFab
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxHeaderSection
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxNavigationSection
-import com.jc.study.play.with.state.ui.theme.cTextAltColor
-import com.jc.study.play.with.state.ui.theme.cTextColor
+import com.jc.study.play.with.state.ui.theme.cPrimaryColor
 import com.jc.study.play.with.state.ui.theme.cWhiteColor
 import kotlinx.coroutines.flow.StateFlow
 
@@ -150,6 +140,18 @@ fun Case3uxResourcesItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+        .height(50.dp)
+        .width(250.dp)
+        .background(color = cPrimaryColor)
+    ) {
+        Box(
+            modifier = Modifier.size(46.dp).background(color = cWhiteColor, shape = RoundedCornerShape(4.dp))
+        )
+    }
+/*
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
             .padding(4.dp)
@@ -187,8 +189,7 @@ fun Case3uxResourcesItem(
                 }
             }
         }
-
-    }
+*/
 }
 
 @Preview

@@ -2,6 +2,7 @@ package com.jc.study.play.with.state.ui.screens.case3
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,15 +36,18 @@ import androidx.compose.ui.unit.sp
 import com.jc.study.play.with.state.constants.HeroConstants
 import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getNewTaskImageById
 import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getTaskIconById
+import com.jc.study.play.with.state.ext.case3.ExtCase3Ux.getListOfNewOrders
 import com.jc.study.play.with.state.models.case3.Case3GameCommonData
 import com.jc.study.play.with.state.models.case3.Case3GameHeroesData
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxFab
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxHeaderSection
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxNavigationSection
+import com.jc.study.play.with.state.ui.theme.cAccentColor
 import com.jc.study.play.with.state.ui.theme.cPeopleItemBackgroundColor
 import com.jc.study.play.with.state.ui.theme.cPrimaryColor
 import com.jc.study.play.with.state.ui.theme.cSecondaryColor
 import com.jc.study.play.with.state.ui.theme.cSelectedItemBackground
+import com.jc.study.play.with.state.ui.theme.cTextAltColor
 
 @Composable
 fun Case3PeopleScreen(
@@ -60,7 +66,8 @@ fun Case3PeopleScreen(
     Box(modifier = Modifier.fillMaxSize()){
         Column(
             modifier = Modifier
-                .fillMaxSize().align(Alignment.TopStart)
+                .fillMaxSize()
+                .align(Alignment.TopStart)
         ) {
             Case3uxHeaderSection(
                 currentScreen = currentScreen,
@@ -74,11 +81,13 @@ fun Case3PeopleScreen(
                 listOfSelectedPeople = listOfSelectedPeople
             )
             if (listOfSelectedPeople.isNotEmpty()){
-                Case3uxPeopleSelectNewOrderSection(onTaskClicked = {newTask ->
-                    val peopleList = listOfSelectedPeople.toList()
-                    updateTaskClicked(newTask, peopleList)
-                    listOfSelectedPeople.clear()
-                })
+                Case3uxPeopleSelectNewOrderSection(
+                    onTaskClicked = {newTask ->
+                        val peopleList = listOfSelectedPeople.toList()
+                        updateTaskClicked(newTask, peopleList)
+                        listOfSelectedPeople.clear()
+                    }
+                )
             } else {
                 Case3uxNavigationSection(
                     currentScreen = currentScreen,
@@ -88,7 +97,10 @@ fun Case3PeopleScreen(
         }
 
         Surface(
-            modifier = Modifier.align(Alignment.BottomStart).padding(5.dp).padding(bottom = 50.dp)
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(5.dp)
+                .padding(bottom = 65.dp)
         ) {
             Case3uxFab(
                 isStarted = isGameStarted.value,
@@ -130,33 +142,27 @@ fun Case3uxPeopleSection(
 
 @Composable
 fun Case3uxPeopleSelectNewOrderSection(onTaskClicked: (Int) -> Unit) {
+    val newOrderList = getListOfNewOrders()
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = cPrimaryColor)
+            .background(color = cSecondaryColor)
     ) {
         Text(
             modifier = Modifier.padding(top = 2.dp, bottom = 4.dp, start = 3.dp),
-            text = "New order", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = cSecondaryColor
+            text = "Select new order:", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = cTextAltColor
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Spacer(modifier = Modifier.width(5.dp))
-            Case3uxPeopleSelectNewOrderItemSection(taskId = HeroConstants.TASK_NOTHING, onTaskClicked = { onTaskClicked(HeroConstants.TASK_NOTHING) })
-            Spacer(modifier = Modifier.width(10.dp))
-            Case3uxPeopleSelectNewOrderItemSection(taskId = HeroConstants.TASK_REST, onTaskClicked = { onTaskClicked(HeroConstants.TASK_REST) })
-            Spacer(modifier = Modifier.width(10.dp))
-            Case3uxPeopleSelectNewOrderItemSection(taskId = HeroConstants.TASK_WATER, onTaskClicked = { onTaskClicked(HeroConstants.TASK_WATER) })
-            Spacer(modifier = Modifier.width(10.dp))
-            Case3uxPeopleSelectNewOrderItemSection(taskId = HeroConstants.TASK_RAW_FOOD, onTaskClicked = {onTaskClicked(HeroConstants.TASK_RAW_FOOD)})
-            Spacer(modifier = Modifier.width(10.dp))
-            Case3uxPeopleSelectNewOrderItemSection(taskId = HeroConstants.TASK_SCRAP, onTaskClicked = {onTaskClicked(HeroConstants.TASK_SCRAP)})
-            Spacer(modifier = Modifier.width(10.dp))
-            Case3uxPeopleSelectNewOrderItemSection(taskId = HeroConstants.TASK_SCOUT, onTaskClicked = {onTaskClicked(HeroConstants.TASK_SCOUT)})
-            Spacer(modifier = Modifier.weight(1.0f))
+        LazyRow{
+            item { Spacer(modifier = Modifier.width(5.dp)) }
+            items(newOrderList){
+                item ->
+                    Case3uxPeopleSelectNewOrderItemSection(
+                        taskId = item,
+                        onTaskClicked = {onTaskClicked(item)}
+                    )
+            }
         }
     }
 }
@@ -166,9 +172,12 @@ fun Case3uxPeopleSelectNewOrderItemSection(taskId: Int, onTaskClicked: () -> Uni
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .width(50.dp)
-            .height(50.dp)
+            .padding(2.dp)
+            .width(46.dp)
+            .height(46.dp)
             .clickable(onClick = onTaskClicked)
+            .background(color = cPrimaryColor, shape = CircleShape)
+            .border(width = 1.dp, color = cAccentColor, shape = CircleShape)
     ){
         Image(painter = painterResource(id = getNewTaskImageById(taskId)), contentDescription = "new-task-icon")
     }

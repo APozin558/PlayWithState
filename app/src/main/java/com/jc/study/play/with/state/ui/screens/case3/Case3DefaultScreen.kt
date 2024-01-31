@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import com.jc.study.play.with.state.constants.CommonConstants
 import com.jc.study.play.with.state.models.case3.Case3GameResourcesData
 import com.jc.study.play.with.state.ui.models.case3.Case3DefaultScreenModel
+import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxShowToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 
@@ -43,11 +44,19 @@ fun Case3DefaultScreen(model: Case3DefaultScreenModel){
             )
     }
 
+    val isMessageForToast = model.isMessageForToast.collectAsState()
+
+    if (isMessageForToast.value){
+        val txtToShow = model.getMessageForToast().collectAsState().value
+        Case3uxShowToast(txtToShow)
+    }
+
     if (isGameStarted.value){
         LaunchedEffect(key1 = isGameStarted.value){
             while (true){
                 delay(1_000)
                 model.updateResOnNextRound()
+                model.checkToastMessage()
             }
         }
     }

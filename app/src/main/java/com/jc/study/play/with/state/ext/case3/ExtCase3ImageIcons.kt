@@ -75,4 +75,13 @@ object ExtCase3ImageIcons {
         }
     }
 
+    fun getBigResImageById(resId: Int):Int{
+        return when(resId){
+            CommonConstants.GAME_RES_WATER -> R.drawable.ux_res_big_water
+            CommonConstants.GAME_RES_RAW_FOOD -> R.drawable.ux_res_big_raw_food
+            CommonConstants.GAME_RES_SCRAP -> R.drawable.big_icon_scrap
+            else -> R.drawable.ux_res_big_water
+        }
+    }
+
 }

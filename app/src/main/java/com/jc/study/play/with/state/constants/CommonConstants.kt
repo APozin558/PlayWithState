@@ -9,6 +9,7 @@ object CommonConstants {
     const val GAME_RES_WATER = 1
     const val GAME_RES_RAW_FOOD = 2
     const val GAME_RES_SCRAP = 3
+    const val GAME_RES_HERBS = 4
 
     const val TIME_MORNING = 0
     const val TIME_DAY = 1

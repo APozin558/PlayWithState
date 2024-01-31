@@ -1,6 +1,10 @@
 package com.jc.study.play.with.state.ext.case3
 
 import com.jc.study.play.with.state.constants.CommonConstants
+import com.jc.study.play.with.state.constants.CommonConstants.GAME_RES_HERBS
+import com.jc.study.play.with.state.constants.CommonConstants.GAME_RES_RAW_FOOD
+import com.jc.study.play.with.state.constants.CommonConstants.GAME_RES_SCRAP
+import com.jc.study.play.with.state.constants.CommonConstants.GAME_RES_WATER
 
 object ExtCase3Labels {
 
@@ -32,4 +36,23 @@ object ExtCase3Labels {
         return "????"
     }
 
+    fun getResTitleById(resId:Int):String{
+        return when(resId){
+            GAME_RES_WATER -> "WATER"
+            GAME_RES_RAW_FOOD -> "FOOD"
+            GAME_RES_SCRAP -> "SCRAP"
+            GAME_RES_HERBS -> "HERBS"
+            else -> "???"
+        }
+    }
+
+    fun getDayPeriodTitleById(dayPeriodId:Int):String{
+        return when(dayPeriodId) {
+            CommonConstants.TIME_MORNING -> CommonConstants.TIME_MORNING_LBL
+            CommonConstants.TIME_DAY -> CommonConstants.TIME_DAY_LBL
+            CommonConstants.TIME_EVENING -> CommonConstants.TIME_EVENING_LBL
+            CommonConstants.TIME_NIGHT -> CommonConstants.TIME_NIGHT_LBL
+            else -> "???"
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.jc.study.play.with.state.ui.models.case3
 
 import androidx.lifecycle.ViewModel
 import com.jc.study.play.with.state.constants.CommonConstants
+import com.jc.study.play.with.state.ext.case3.ExtCase3Labels.getDayPeriodTitleById
 import com.jc.study.play.with.state.logic.case3.Case3InitNewGame.generateNewHeroes
 import com.jc.study.play.with.state.logic.case3.Case3NextRound
 import com.jc.study.play.with.state.models.case3.Case3GameCommonData
@@ -11,6 +12,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class Case3DefaultScreenModel: ViewModel() {
+    val isMessageForToast = MutableStateFlow(false)
+    private val txtMessageForToast = MutableStateFlow("???")
+
     private val _gmCommonDate = MutableStateFlow(Case3GameCommonData())
     val gmCommonData = _gmCommonDate.asStateFlow()
 
@@ -59,5 +63,17 @@ class Case3DefaultScreenModel: ViewModel() {
             hero.currentTask = newOrder
         }}
         _gmResNextRoundInfo.value = Case3NextRound.getNextRoundInfo(gmHeroesList)
+    }
+
+    fun getMessageForToast(): StateFlow<String> {
+        isMessageForToast.value = false
+        return txtMessageForToast.asStateFlow()
+    }
+
+    fun checkToastMessage() {
+        if (gmCommonData.value.roundNumber == 0){
+            txtMessageForToast.value = getDayPeriodTitleById(gmCommonData.value.dayPeriod) + " STARTED"
+            isMessageForToast.value = true
+        }
     }
 }

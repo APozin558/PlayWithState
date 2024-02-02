@@ -11,7 +11,7 @@ object ExtCase3ImageIcons {
             CommonConstants.GAME_RES_WATER -> R.drawable.ux_res_water_c_40
             CommonConstants.GAME_RES_RAW_FOOD -> R.drawable.ux_res_raw_food_c_40
             CommonConstants.GAME_RES_SCRAP -> R.drawable.ux_res_gear_c_40
-            else -> R.drawable.ux_task_heal_c_24
+            else -> R.drawable.ux_alert_icon
         }
     }
 
@@ -70,7 +70,11 @@ object ExtCase3ImageIcons {
             HeroConstants.TASK_WATER -> R.drawable.ux_task_water_w_icon
             HeroConstants.TASK_RAW_FOOD -> R.drawable.ux_task_food_w_24
             HeroConstants.TASK_SCRAP -> R.drawable.ux_task_scrap_w_24
+            HeroConstants.TASK_HERBS -> R.drawable.ux_task_herbs_w_24
             HeroConstants.TASK_SCOUT -> R.drawable.ux_task_scout_w_icon
+            HeroConstants.TASK_BUILD -> R.drawable.ux_task_build_w_24
+            HeroConstants.TASK_HEAL -> R.drawable.ux_task_heal_w_24
+            HeroConstants.TASK_RESET_SELECTION -> R.drawable.ux_task_cancel_w_24
             else -> R.drawable.ux_alert_icon
         }
     }
@@ -79,7 +83,8 @@ object ExtCase3ImageIcons {
         return when(resId){
             CommonConstants.GAME_RES_WATER -> R.drawable.ux_res_big_water
             CommonConstants.GAME_RES_RAW_FOOD -> R.drawable.ux_res_big_raw_food
-            CommonConstants.GAME_RES_SCRAP -> R.drawable.big_icon_scrap
+            CommonConstants.GAME_RES_SCRAP -> R.drawable.ux_res_big_soup
+            CommonConstants.GAME_RES_HERBS -> R.drawable.ux_res_big_herbs
             else -> R.drawable.ux_res_big_water
         }
     }

@@ -27,7 +27,7 @@ class Case3DefaultScreenModel: ViewModel() {
     private val _gmResData = MutableStateFlow(Case3GameResourcesData())
     val gmResData: StateFlow<Case3GameResourcesData> = _gmResData.asStateFlow()
 
-    private val _gmHeroesList = MutableStateFlow(generateNewHeroes())
+    private val _gmHeroesList = MutableStateFlow(generateNewHeroes(7))
     val gmHeroesList = _gmHeroesList.asStateFlow()
 
     private val _gmResNextRoundInfo = MutableStateFlow(Case3NextRound.getNextRoundInfo(gmHeroesList))

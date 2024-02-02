@@ -15,7 +15,7 @@ object ExtCase3Ux {
             HeroConstants.TASK_SCOUT,
             HeroConstants.TASK_BUILD,
             HeroConstants.TASK_HEAL,
-            HeroConstants.TASK_NOTHING
+            HeroConstants.TASK_RESET_SELECTION
         )
     }
 

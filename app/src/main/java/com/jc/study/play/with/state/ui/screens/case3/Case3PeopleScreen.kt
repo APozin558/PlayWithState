@@ -83,8 +83,10 @@ fun Case3PeopleScreen(
             if (listOfSelectedPeople.isNotEmpty()){
                 Case3uxPeopleSelectNewOrderSection(
                     onTaskClicked = {newTask ->
-                        val peopleList = listOfSelectedPeople.toList()
-                        updateTaskClicked(newTask, peopleList)
+                        if (newTask != HeroConstants.TASK_RESET_SELECTION) {
+                            val peopleList = listOfSelectedPeople.toList()
+                            updateTaskClicked(newTask, peopleList)
+                        }
                         listOfSelectedPeople.clear()
                     }
                 )
@@ -220,7 +222,7 @@ fun Case3uxPeopleListItem(
 @Preview
 @Composable
 fun Case3uxPeopleListItemPreview(){
-    val tmpData:Case3GameHeroesData = Case3GameHeroesData(id = 0, name = "Steve Stontnberg", currentTask = HeroConstants.TASK_RAW_FOOD)
+    val tmpData:Case3GameHeroesData = Case3GameHeroesData(id = 0, name = "Steve Storefront", currentTask = HeroConstants.TASK_RAW_FOOD)
     Case3uxPeopleListItem(heroData = tmpData, isSelected = false, changeTaskIsPressed = {})
 }
 

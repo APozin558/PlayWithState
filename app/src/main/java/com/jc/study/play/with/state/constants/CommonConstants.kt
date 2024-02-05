@@ -5,6 +5,8 @@ object CommonConstants {
 
     const val SCREEN_OVERVIEW = 0
     const val SCREEN_PEOPLE = 1
+    const val SCREEN_BUILDINGS = 2
+    const val SCREEN_LOCATIONS = 3
 
     const val GAME_RES_WATER = 1
     const val GAME_RES_RAW_FOOD = 2

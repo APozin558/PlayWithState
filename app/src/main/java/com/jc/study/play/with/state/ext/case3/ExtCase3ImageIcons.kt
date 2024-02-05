@@ -39,14 +39,34 @@ object ExtCase3ImageIcons {
         return when(screenId){
             CommonConstants.SCREEN_OVERVIEW -> R.drawable.ux_navigation_main_icon
             CommonConstants.SCREEN_PEOPLE -> R.drawable.ux_navigation_people_icon
+            CommonConstants.SCREEN_BUILDINGS -> R.drawable.ux_navigation_buildings_w_24
+            CommonConstants.SCREEN_LOCATIONS -> R.drawable.ux_navigation_locations_w_24
             else -> R.drawable.ux_alert_icon
         }
     }
 
     fun getNavigationIconById(screenId:Int, isCurrentScreen:Boolean):Int{
         return when(screenId){
-            CommonConstants.SCREEN_OVERVIEW -> if (isCurrentScreen) R.drawable.ux_navigation_main_selected_icon else R.drawable.ux_navigation_main_icon
-            CommonConstants.SCREEN_PEOPLE -> if (isCurrentScreen) R.drawable.ux_navigation_people_selected_icon else R.drawable.ux_navigation_people_icon
+            CommonConstants.SCREEN_OVERVIEW ->
+                if (isCurrentScreen)
+                    R.drawable.ux_navigation_main_selected_icon
+                else
+                    R.drawable.ux_navigation_main_icon
+            CommonConstants.SCREEN_PEOPLE ->
+                if (isCurrentScreen)
+                    R.drawable.ux_navigation_people_selected_icon
+                else
+                    R.drawable.ux_navigation_people_icon
+            CommonConstants.SCREEN_BUILDINGS ->
+                if (isCurrentScreen)
+                    R.drawable.ux_navigation_buildings_c_24
+                else
+                    R.drawable.ux_navigation_buildings_w_24
+            CommonConstants.SCREEN_LOCATIONS ->
+                if (isCurrentScreen)
+                    R.drawable.ux_navigation_locations_c_24
+                else
+                    R.drawable.ux_navigation_locations_w_24
             else -> R.drawable.ux_alert_icon
         }
     }
@@ -90,6 +110,10 @@ object ExtCase3ImageIcons {
             CommonConstants.GAME_RES_HERBS -> R.drawable.ux_res_big_herbs
             else -> R.drawable.ux_res_big_water
         }
+    }
+
+    fun getExpandIcon(isExpanded:Boolean):Int{
+        return if (isExpanded) R.drawable.ux_icon_expand_less else R.drawable.ux_icon_expand_more
     }
 
 }

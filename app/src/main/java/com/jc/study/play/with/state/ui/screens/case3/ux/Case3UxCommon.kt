@@ -62,6 +62,18 @@ fun Case3uxNavigationSection(
             screenId = CommonConstants.SCREEN_PEOPLE,
             onNavigationClicked = { onNavigationClicked(CommonConstants.SCREEN_PEOPLE)}
         )
+        Spacer(modifier = Modifier.width(5.dp))
+        Case3NavigationIconSection(
+            currentScreen = currentScreen,
+            screenId = CommonConstants.SCREEN_BUILDINGS,
+            onNavigationClicked = { onNavigationClicked(CommonConstants.SCREEN_BUILDINGS)}
+        )
+        Spacer(modifier = Modifier.width(5.dp))
+        Case3NavigationIconSection(
+            currentScreen = currentScreen,
+            screenId = CommonConstants.SCREEN_LOCATIONS,
+            onNavigationClicked = { onNavigationClicked(CommonConstants.SCREEN_LOCATIONS)}
+        )
         Spacer(modifier = Modifier.weight(1.0f))
     }
 

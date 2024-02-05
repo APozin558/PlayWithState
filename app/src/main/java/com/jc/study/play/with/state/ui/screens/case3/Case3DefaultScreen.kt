@@ -42,6 +42,23 @@ fun Case3DefaultScreen(model: Case3DefaultScreenModel){
                 gamePeople = gamePeople,
                 updateTaskClicked = {newOrder, selectedPeopleList -> model.updatePeopleTasks(newOrder = newOrder, selectedPeopleList = selectedPeopleList)}
             )
+        CommonConstants.SCREEN_BUILDINGS ->
+            Case3BuildingsScreen(
+                commonData = gmCommonData,
+                onPauseClicked = { model.onPauseClicked() },
+                currentScreen = currentScreen.value,
+                isGameStarted = isGameStarted,
+                onNavigationClicked = { nextScreen:Int -> model.navigation(nextScreen) }
+            )
+        CommonConstants.SCREEN_LOCATIONS ->
+            Case3LocationsScreen(
+                commonData = gmCommonData,
+                onPauseClicked = { model.onPauseClicked() },
+                currentScreen = currentScreen.value,
+                isGameStarted = isGameStarted,
+                onNavigationClicked = { nextScreen:Int -> model.navigation(nextScreen) }
+            )
+
     }
 
     val isMessageForToast = model.isMessageForToast.collectAsState()

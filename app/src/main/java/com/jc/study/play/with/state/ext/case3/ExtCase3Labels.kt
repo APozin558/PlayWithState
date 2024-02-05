@@ -12,6 +12,8 @@ object ExtCase3Labels {
         return when(screenId){
             CommonConstants.SCREEN_OVERVIEW -> "OVERVIEW"
             CommonConstants.SCREEN_PEOPLE -> "PEOPLE"
+            CommonConstants.SCREEN_BUILDINGS -> "BUILDINGS"
+            CommonConstants.SCREEN_LOCATIONS -> "LOCATIONS"
             else -> "????"
         }
     }

@@ -3,6 +3,7 @@ package com.jc.study.play.with.state.ui.screens.case3
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -22,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Alignment.Companion.BottomEnd
@@ -37,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jc.study.play.with.state.R
 import com.jc.study.play.with.state.constants.CommonConstants
+import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons
 import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getBigResImageById
 import com.jc.study.play.with.state.ext.case3.ExtCase3ImageIcons.getResourceIconById
 import com.jc.study.play.with.state.ext.case3.ExtCase3Labels
@@ -48,6 +53,7 @@ import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxHeaderSection
 import com.jc.study.play.with.state.ui.screens.case3.ux.Case3uxNavigationSection
 import com.jc.study.play.with.state.ui.theme.cAccentColor
 import com.jc.study.play.with.state.ui.theme.cPrimaryColor
+import com.jc.study.play.with.state.ui.theme.cSecondaryColor
 import com.jc.study.play.with.state.ui.theme.cTextColor
 import com.jc.study.play.with.state.ui.theme.cWhiteColor
 import kotlinx.coroutines.flow.StateFlow
@@ -74,8 +80,15 @@ fun Case3OverviewScreen(
                 isGameStarted = isGameStarted.value,
                 commonData = commonData
             )
-            Case3uxResourceSection(gameData = gameData, resNextRoundInfo = resNextRoundInfo, modifier = Modifier.weight(1.0f))
-            Case3uxNavigationSection(currentScreen = currentScreen, onNavigationClicked = onNavigationClicked)
+            Case3uxOverviewMain(
+                gameData = gameData,
+                resNextRoundInfo = resNextRoundInfo,
+                modifier = Modifier.weight(1.0f)
+            )
+            Case3uxNavigationSection(
+                currentScreen = currentScreen,
+                onNavigationClicked = onNavigationClicked
+            )
         }
 
         Surface(
@@ -93,10 +106,95 @@ fun Case3OverviewScreen(
 }
 
 @Composable
-fun Case3uxResourceSection(
+fun Case3uxOverviewMain(
     gameData: StateFlow<Case3GameResourcesData>,
     resNextRoundInfo: StateFlow<Case3ResNextRoundChanges>,
     modifier: Modifier
+){
+    LazyColumn(
+        modifier = modifier
+            .background(color = cSecondaryColor)
+            .fillMaxSize()
+    ) {
+        item{
+            Case3uxOverviewSection()
+        }
+        item {
+            Case3uxResourceISection(
+                gameData = gameData,
+                resNextRoundInfo = resNextRoundInfo
+            )
+        }
+        item {
+            Case3uxResourceIISection(
+                gameData = gameData,
+                resNextRoundInfo = resNextRoundInfo
+            )
+        }
+        item {
+            Case3uxResourceIIISection(
+                gameData = gameData,
+                resNextRoundInfo = resNextRoundInfo
+            )
+        }
+    }
+}
+
+
+@Composable
+fun Case3uxOverviewSection(){
+    val isExpanded = remember {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(start = 2.dp, end = 2.dp, top = 4.dp, bottom = 10.dp)
+            .background(color = cWhiteColor)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = cWhiteColor)
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+                    .weight(1.0f),
+                text = "OVERVIEW",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Box(
+                contentAlignment = Center,
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(40.dp)
+                    .clickable(onClick = { isExpanded.value = ! isExpanded.value })
+            ){
+                Image(
+                    painter = painterResource(id = ExtCase3ImageIcons.getExpandIcon(isExpanded = isExpanded.value)), contentDescription = "expand"
+                )
+            }
+        }
+
+        if (isExpanded.value){
+            Text(text = "WATER")
+            Text(text = "   xxxxx")
+            Text(text = "FOOD")
+            Text(text = "   xxxxx")
+            Text(text = "MORALE")
+            Text(text = "   xxxxx")
+            Text(text = "CRIME")
+            Text(text = "   xxxxx")
+        }
+    }
+}
+
+@Composable
+fun Case3uxResourceISection(
+    gameData: StateFlow<Case3GameResourcesData>,
+    resNextRoundInfo: StateFlow<Case3ResNextRoundChanges>
 ) {
 
     val heroTotal = resNextRoundInfo.collectAsState().value.heroTotal
@@ -116,52 +214,288 @@ fun Case3uxResourceSection(
     val resHeroScrap = resNextRoundInfo.collectAsState().value.heroScrap
     val resHeroSpendScrap = resNextRoundInfo.collectAsState().value.spendScrap
 
+    val isExpanded = remember{ mutableStateOf(true) }
+
     Column(
-        modifier = modifier
-            .padding(start = 2.dp, end = 2.dp, top=4.dp, bottom = 4.dp)
+        modifier = Modifier
+            .background(color = cWhiteColor)
+            .padding(start = 2.dp, end = 2.dp, top = 4.dp, bottom = 4.dp)
     ) {
-        Row {
-            Case3uxResourcesItem(
-                resId = CommonConstants.GAME_RES_WATER,
-                res = resWater,
-                resNext = resNextWater,
-                resHero = resHeroWater,
-                spendRes = resHeroSpendWater,
-                affectedHeroes = heroTotal,
-                modifier = Modifier.weight(1.0f)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = cWhiteColor)
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+                    .weight(1.0f),
+                text = "RESOURCES I",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.width(2.dp))
-            Case3uxResourcesItem(
-                resId = CommonConstants.GAME_RES_RAW_FOOD,
-                res = resRawFood,
-                resNext = resNextRawFood,
-                resHero = resHeroRawFood,
-                spendRes = resHeroSpendRawFood,
-                affectedHeroes = heroTotal,
-                modifier = Modifier.weight(1.0f)
-            )
+            Box(
+                contentAlignment = Center,
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(40.dp)
+                    .clickable(onClick = { isExpanded.value = ! isExpanded.value })
+            ){
+                Image(
+                    painter = painterResource(id = ExtCase3ImageIcons.getExpandIcon(isExpanded = isExpanded.value)), contentDescription = "expand"
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(2.dp))
-        Row {
-            Case3uxResourcesItem(
-                resId = CommonConstants.GAME_RES_SCRAP,
-                res = resScrap,
-                resNext = resNextScrap,
-                resHero = resHeroScrap,
-                spendRes = resHeroSpendScrap,
-                affectedHeroes = heroTotal,
-                modifier = Modifier.weight(1.0f)
+        if (isExpanded.value){
+            Row {
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_WATER,
+                    res = resWater,
+                    resNext = resNextWater,
+                    resHero = resHeroWater,
+                    spendRes = resHeroSpendWater,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_RAW_FOOD,
+                    res = resRawFood,
+                    resNext = resNextRawFood,
+                    resHero = resHeroRawFood,
+                    spendRes = resHeroSpendRawFood,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+            }
+            Spacer(modifier = Modifier.height(2.dp))
+            Row {
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_SCRAP,
+                    res = resScrap,
+                    resNext = resNextScrap,
+                    resHero = resHeroScrap,
+                    spendRes = resHeroSpendScrap,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_SCRAP,
+                    res = resScrap,
+                    resNext = resNextScrap,
+                    resHero = resHeroScrap,
+                    spendRes = resHeroSpendScrap,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun Case3uxResourceIISection(
+    gameData: StateFlow<Case3GameResourcesData>,
+    resNextRoundInfo: StateFlow<Case3ResNextRoundChanges>
+) {
+
+    val heroTotal = resNextRoundInfo.collectAsState().value.heroTotal
+
+    val resWater = gameData.collectAsState().value.resWater
+    val resNextWater = resNextRoundInfo.collectAsState().value.resWater
+    val resHeroWater = resNextRoundInfo.collectAsState().value.heroWater
+    val resHeroSpendWater = resNextRoundInfo.collectAsState().value.spendWater
+
+    val resRawFood = gameData.collectAsState().value.resRawFood
+    val resNextRawFood = resNextRoundInfo.collectAsState().value.resRawFood
+    val resHeroRawFood = resNextRoundInfo.collectAsState().value.heroRawFood
+    val resHeroSpendRawFood = resNextRoundInfo.collectAsState().value.spendFood
+
+    val resScrap = gameData.collectAsState().value.resScrap
+    val resNextScrap = resNextRoundInfo.collectAsState().value.resScrap
+    val resHeroScrap = resNextRoundInfo.collectAsState().value.heroScrap
+    val resHeroSpendScrap = resNextRoundInfo.collectAsState().value.spendScrap
+
+    val isExpanded = remember{ mutableStateOf(true) }
+
+    Column(
+        modifier = Modifier
+            .background(color = cWhiteColor)
+            .padding(start = 2.dp, end = 2.dp, top = 4.dp, bottom = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = cWhiteColor)
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+                    .weight(1.0f),
+                text = "RESOURCES II",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.width(2.dp))
-            Case3uxResourcesItem(
-                resId = CommonConstants.GAME_RES_SCRAP,
-                res = resScrap,
-                resNext = resNextScrap,
-                resHero = resHeroScrap,
-                spendRes = resHeroSpendScrap,
-                affectedHeroes = heroTotal,
-                modifier = Modifier.weight(1.0f)
+            Box(
+                contentAlignment = Center,
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(40.dp)
+                    .clickable(onClick = { isExpanded.value = ! isExpanded.value })
+            ){
+                Image(
+                    painter = painterResource(id = ExtCase3ImageIcons.getExpandIcon(isExpanded = isExpanded.value)), contentDescription = "expand"
+                )
+            }
+        }
+        if (isExpanded.value){
+            Row {
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_WATER,
+                    res = resWater,
+                    resNext = resNextWater,
+                    resHero = resHeroWater,
+                    spendRes = resHeroSpendWater,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_RAW_FOOD,
+                    res = resRawFood,
+                    resNext = resNextRawFood,
+                    resHero = resHeroRawFood,
+                    spendRes = resHeroSpendRawFood,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+            }
+            Spacer(modifier = Modifier.height(2.dp))
+            Row {
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_SCRAP,
+                    res = resScrap,
+                    resNext = resNextScrap,
+                    resHero = resHeroScrap,
+                    spendRes = resHeroSpendScrap,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_SCRAP,
+                    res = resScrap,
+                    resNext = resNextScrap,
+                    resHero = resHeroScrap,
+                    spendRes = resHeroSpendScrap,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun Case3uxResourceIIISection(
+    gameData: StateFlow<Case3GameResourcesData>,
+    resNextRoundInfo: StateFlow<Case3ResNextRoundChanges>
+) {
+
+    val heroTotal = resNextRoundInfo.collectAsState().value.heroTotal
+
+    val resWater = gameData.collectAsState().value.resWater
+    val resNextWater = resNextRoundInfo.collectAsState().value.resWater
+    val resHeroWater = resNextRoundInfo.collectAsState().value.heroWater
+    val resHeroSpendWater = resNextRoundInfo.collectAsState().value.spendWater
+
+    val resRawFood = gameData.collectAsState().value.resRawFood
+    val resNextRawFood = resNextRoundInfo.collectAsState().value.resRawFood
+    val resHeroRawFood = resNextRoundInfo.collectAsState().value.heroRawFood
+    val resHeroSpendRawFood = resNextRoundInfo.collectAsState().value.spendFood
+
+    val resScrap = gameData.collectAsState().value.resScrap
+    val resNextScrap = resNextRoundInfo.collectAsState().value.resScrap
+    val resHeroScrap = resNextRoundInfo.collectAsState().value.heroScrap
+    val resHeroSpendScrap = resNextRoundInfo.collectAsState().value.spendScrap
+
+    val isExpanded = remember{ mutableStateOf(true) }
+
+    Column(
+        modifier = Modifier
+            .background(color = cWhiteColor)
+            .padding(start = 2.dp, end = 2.dp, top = 4.dp, bottom = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = cWhiteColor)
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+                    .weight(1.0f),
+                text = "RESOURCES II",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
             )
+            Box(
+                contentAlignment = Center,
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(40.dp)
+                    .clickable(onClick = { isExpanded.value = ! isExpanded.value })
+            ){
+                Image(
+                    painter = painterResource(id = ExtCase3ImageIcons.getExpandIcon(isExpanded = isExpanded.value)), contentDescription = "expand"
+                )
+            }
+        }
+        if (isExpanded.value){
+            Row {
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_WATER,
+                    res = resWater,
+                    resNext = resNextWater,
+                    resHero = resHeroWater,
+                    spendRes = resHeroSpendWater,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_RAW_FOOD,
+                    res = resRawFood,
+                    resNext = resNextRawFood,
+                    resHero = resHeroRawFood,
+                    spendRes = resHeroSpendRawFood,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+            }
+            Spacer(modifier = Modifier.height(2.dp))
+            Row {
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_SCRAP,
+                    res = resScrap,
+                    resNext = resNextScrap,
+                    resHero = resHeroScrap,
+                    spendRes = resHeroSpendScrap,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Case3uxResourcesItem(
+                    resId = CommonConstants.GAME_RES_SCRAP,
+                    res = resScrap,
+                    resNext = resNextScrap,
+                    resHero = resHeroScrap,
+                    spendRes = resHeroSpendScrap,
+                    affectedHeroes = heroTotal,
+                    modifier = Modifier.weight(1.0f)
+                )
+            }
         }
     }
 }
@@ -180,7 +514,6 @@ fun Case3uxResourcesItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .height(50.dp)
-            //.width(200.dp)
             .padding(start = 2.dp, end = 2.dp)
             .background(color = cPrimaryColor)
             .border(color = Color.Black, width = 1.dp)
@@ -194,7 +527,9 @@ fun Case3uxResourcesItem(
                 )
         ){
             Image(
-                modifier = Modifier.align(Center).size(46.dp),
+                modifier = Modifier
+                    .align(Center)
+                    .size(46.dp),
                 painter = painterResource(
                     id = getBigResImageById(resId)
                 ),

@@ -30,7 +30,7 @@ class Case3DefaultScreenModel: ViewModel() {
     private val _gmHeroesList = MutableStateFlow(generateNewHeroes(7))
     val gmHeroesList = _gmHeroesList.asStateFlow()
 
-    private val _gmResNextRoundInfo = MutableStateFlow(Case3NextRound.getNextRoundInfo(gmHeroesList))
+    private val _gmResNextRoundInfo = MutableStateFlow(Case3NextRound.getNextRoundChanges(gmHeroesList))
     val gmResNextRoundInfo = _gmResNextRoundInfo.asStateFlow()
 
     fun updateResOnNextRound(){
@@ -38,7 +38,7 @@ class Case3DefaultScreenModel: ViewModel() {
         _gmCommonDate.value = _gmCommonDate.value
             .copy(roundNumber = newCommonData.roundNumber, dayN = newCommonData.dayN, dayPeriod = newCommonData.dayPeriod)
 
-        _gmResNextRoundInfo.value = Case3NextRound.getNextRoundInfo(gmHeroesList)
+        _gmResNextRoundInfo.value = Case3NextRound.getNextRoundChanges(gmHeroesList)
         val gmResWaterResult = gmResData.value.resWater + gmResNextRoundInfo.value.getWater(newCommonData.dayPeriod, newCommonData.roundNumber)
         val gmResRawFoodResult = gmResData.value.resRawFood + gmResNextRoundInfo.value.getFood(newCommonData.dayPeriod, newCommonData.roundNumber)
         val gmResScrapResult = gmResData.value.resScrap + gmResNextRoundInfo.value.getScrap(newCommonData.dayPeriod, newCommonData.roundNumber)
@@ -62,7 +62,7 @@ class Case3DefaultScreenModel: ViewModel() {
             hero.orderedTask = newOrder
             hero.currentTask = newOrder
         }}
-        _gmResNextRoundInfo.value = Case3NextRound.getNextRoundInfo(gmHeroesList)
+        _gmResNextRoundInfo.value = Case3NextRound.getNextRoundChanges(gmHeroesList)
     }
 
     fun getMessageForToast(): StateFlow<String> {

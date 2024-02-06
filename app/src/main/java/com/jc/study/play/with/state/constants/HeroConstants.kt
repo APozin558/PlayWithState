@@ -5,6 +5,7 @@ object HeroConstants {
     const val DEFAULT_GET_RAW_FOOD = 1.0f
     const val DEFAULT_GET_SCRAP = 1.5f
     const val DEFAULT_DO_SCOUT = 5.0f
+    const val DEFAULT_DO_CONSTRUCTION = 5.0f
 
     const val DEFAULT_NEED_WATER = 2.0f
     const val DEFAULT_NEED_FOOD = 1.0f

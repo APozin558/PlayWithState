@@ -21,11 +21,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = cDefaultBackgroundColor
                 ) {
-/*
-                    val appDataModel = remember{ AppDataModel() }
-                    DefaultScreen(appDataModel)
-*/
-                    //Case2ZeroScreen()
                     val model = remember{ Case3DefaultScreenModel() }
                     Case3DefaultScreen(model)
                 }
